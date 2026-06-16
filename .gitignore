@@ -1,0 +1,8 @@
+node_modules/
+package-lock.json
+package.json
+*.docx
+*.pptx
+*.txt
+extracted_images/
+test_accuracy.js

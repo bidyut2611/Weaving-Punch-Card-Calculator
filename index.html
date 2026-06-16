@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Weaving Punching Card Calculator — Automatically generate punching card descriptions from ArahPaint design images for textile weaving.">
+  <title>Weaving Punch Card Calculator</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧶</text></svg>">
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo-section">
+        <div class="logo-icon">🧶</div>
+        <div class="logo-text">
+          <span class="logo-title">Weaving Punch Card Calculator</span>
+          <span class="logo-subtitle">ArahPaint Design → Punching Description</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="help-btn" title="Help">
+          <span>❓</span> How to Use
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Main Content ===== -->
+  <main class="app-main">
+
+    <!-- Upload Section (full width) -->
+    <section class="card upload-section" id="upload-section">
+      <div class="upload-zone" id="upload-zone">
+        <div class="upload-placeholder">
+          <span class="upload-icon">📁</span>
+          <div class="upload-text">Drop your design image here</div>
+          <div class="upload-subtext">Supports BMP, PNG, JPG files from ArahPaint</div>
+        </div>
+        <div class="upload-preview">
+          <img id="preview-img" alt="Design preview">
+          <div class="upload-preview-info">
+            <div class="upload-preview-name" id="preview-name"></div>
+            <div class="upload-preview-size" id="preview-size"></div>
+          </div>
+          <span class="upload-preview-change">Change Image</span>
+        </div>
+        <input type="file" id="file-input" accept=".bmp,.png,.jpg,.jpeg,.gif,image/*" class="sr-only">
+      </div>
+    </section>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+      <!-- Configuration Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="icon">⚙️</span> Configuration</h2>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label" for="design-name">Design Name</label>
+            <input type="text" class="form-input" id="design-name" placeholder="e.g., Buta 50">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="thread-count">Thread (Width)</label>
+              <input type="number" class="form-input" id="thread-count" value="100" min="1" max="1000">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="board-count">Board (Height)</label>
+              <input type="number" class="form-input" id="board-count" value="50" min="1" max="1000">
+            </div>
+          </div>
+        </div>
+        <div class="process-btn-wrapper">
+          <button class="btn btn-primary btn-block btn-lg" id="process-btn" disabled>
+            <span>⚡</span> Process Design
+          </button>
+        </div>
+      </div>
+
+      <!-- Detected Colors Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="icon">🎨</span> Detected Colors</h2>
+        </div>
+        <div class="card-body">
+          <div id="color-list" class="color-list">
+            <div class="no-colors">Upload and process an image to detect colors</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Preview Section -->
+    <section class="card preview-section">
+      <div class="card-header">
+        <h2><span class="icon">📐</span> Grid Preview</h2>
+        <div class="canvas-controls">
+          <button class="btn btn-secondary" id="zoom-in" title="Zoom In">🔍+</button>
+          <button class="btn btn-secondary" id="zoom-out" title="Zoom Out">🔍−</button>
+          <button class="btn btn-secondary" id="zoom-reset" title="Fit to View">⊞</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="canvas-wrapper" id="canvas-wrapper">
+          <canvas id="grid-canvas"></canvas>
+          <div class="canvas-placeholder" id="canvas-placeholder">
+            <span class="placeholder-icon">📐</span>
+            <span class="placeholder-text">Grid preview will appear here after processing</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Output Section (full width) -->
+    <section class="card output-section" id="output-section">
+      <div class="card-header">
+        <h2><span class="icon">📝</span> Punching Card Output</h2>
+        <div class="output-tabs">
+          <button class="output-tab active" data-tab="text">Text View</button>
+          <button class="output-tab" data-tab="grid">Grid View</button>
+        </div>
+      </div>
+      <div class="output-content">
+        <div id="output-text-view">
+          <pre class="output-text empty" id="output-text">Process a design image to see the punching card description here...</pre>
+          <div class="output-actions">
+            <button class="btn btn-secondary" id="copy-output" disabled>
+              <span>📋</span> Copy
+            </button>
+            <button class="btn btn-secondary" id="export-txt" disabled>
+              <span>📄</span> Export TXT
+            </button>
+            <button class="btn btn-success" id="export-docx" disabled>
+              <span>📝</span> Export DOCX
+            </button>
+          </div>
+        </div>
+        <div class="output-grid-view" id="output-grid-view"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Status Bar ===== -->
+  <footer class="status-bar">
+    <div class="status-left">
+      <span class="status-indicator">
+        <span class="status-dot ready" id="status-dot"></span>
+        <span id="status-text">Ready</span>
+      </span>
+    </div>
+    <div class="status-right">
+      <span>Weaving Punch Card Calculator v1.0</span>
+    </div>
+  </footer>
+
+  <!-- ===== Loading Overlay ===== -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <div class="loading-text" id="loading-text">Processing...</div>
+    </div>
+  </div>
+
+  <!-- ===== Toast Container ===== -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ===== Help Modal ===== -->
+  <div class="loading-overlay" id="help-modal" style="cursor:pointer;">
+    <div class="card" style="max-width:600px;width:90%;cursor:default;" onclick="event.stopPropagation()">
+      <div class="card-header">
+        <h2><span class="icon">❓</span> How to Use</h2>
+        <button class="btn btn-secondary" id="help-close" style="padding:0.3rem 0.6rem;">✕</button>
+      </div>
+      <div class="card-body" style="max-height:70vh;overflow-y:auto;">
+        <ol style="padding-left:1.2rem;font-size:0.85rem;line-height:2;color:var(--text-secondary)">
+          <li><strong>Open your design</strong> in ArahPaint and export/save it as a <strong>BMP or PNG</strong> file.</li>
+          <li><strong>Upload the image</strong> by clicking the upload area or dragging the file.</li>
+          <li><strong>Set the configuration</strong>:
+            <ul style="padding-left:1rem;list-style:disc">
+              <li><strong>Design Name</strong> — e.g., "Buta 50"</li>
+              <li><strong>Thread (Width)</strong> — number of columns in the grid (e.g., 100)</li>
+              <li><strong>Board (Height)</strong> — number of rows in the grid (e.g., 50)</li>
+            </ul>
+          </li>
+          <li>Click <strong>"Process Design"</strong> to analyze the image.</li>
+          <li>Review the <strong>Detected Colors</strong> panel:
+            <ul style="padding-left:1rem;list-style:disc">
+              <li>Set each color as <strong>Primary</strong> (main design) or <strong>Mina</strong> (secondary color section).</li>
+              <li>For Mina colors, you can set a custom label.</li>
+              <li>Set to <strong>Ignore</strong> to exclude a color.</li>
+            </ul>
+          </li>
+          <li><strong>Export</strong> the result as TXT or DOCX file.</li>
+        </ol>
+        <div style="margin-top:1rem;padding:0.75rem;background:var(--bg-glass);border-radius:var(--radius-sm);border:1px solid var(--border-subtle)">
+          <strong style="color:var(--text-accent);font-size:0.8rem;">💡 Notation Format</strong>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;margin-top:0.5rem;color:var(--text-secondary);line-height:1.8">
+            50, 51 → Individual columns<br>
+            45- 46 → Two consecutive columns<br>
+            48--53 → Three or more consecutive columns<br>
+            || → End of row marker
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Scripts ===== -->
+  <script src="grid-renderer.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Help modal
+    document.getElementById('help-btn').addEventListener('click', () => {
+      document.getElementById('help-modal').classList.add('active');
+    });
+    document.getElementById('help-close').addEventListener('click', () => {
+      document.getElementById('help-modal').classList.remove('active');
+    });
+    document.getElementById('help-modal').addEventListener('click', () => {
+      document.getElementById('help-modal').classList.remove('active');
+    });
+  </script>
+</body>
+</html>
