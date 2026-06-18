@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Weaving Punching Card Calculator — Automatically generate punching card descriptions from ArahPaint design images for textile weaving.">
+  <meta name="description" content="Weaving Punching Card Calculator — Automatically generate punching card descriptions from ArahPaint design images for textile weaving. Includes PNG to BMP converter.">
   <title>Weaving Punch Card Calculator</title>
   <link rel="stylesheet" href="index.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧶</text></svg>">
@@ -20,6 +20,17 @@
           <span class="logo-subtitle">ArahPaint Design → Punching Description</span>
         </div>
       </div>
+
+      <!-- ===== Tool Tabs ===== -->
+      <nav class="app-tabs" id="app-tabs">
+        <button class="app-tab active" data-tool="calculator">
+          <span>📊</span> Punch Calculator
+        </button>
+        <button class="app-tab" data-tool="converter">
+          <span>🔄</span> Image → BMP
+        </button>
+      </nav>
+
       <div class="header-actions">
         <button class="btn btn-secondary" id="help-btn" title="Help">
           <span>❓</span> How to Use
@@ -28,8 +39,10 @@
     </div>
   </header>
 
-  <!-- ===== Main Content ===== -->
-  <main class="app-main">
+  <!-- ======================================================== -->
+  <!-- ===== TOOL 1: PUNCH CARD CALCULATOR (Existing) ========= -->
+  <!-- ======================================================== -->
+  <main class="app-main tool-panel active" id="tool-calculator">
 
     <!-- Upload Section (full width) -->
     <section class="card upload-section" id="upload-section">
@@ -147,6 +160,133 @@
 
   </main>
 
+  <!-- ======================================================== -->
+  <!-- ===== TOOL 2: IMAGE → BMP CONVERTER (New) ============== -->
+  <!-- ======================================================== -->
+  <main class="app-main conv-layout tool-panel" id="tool-converter">
+
+    <!-- Converter Upload (full width) -->
+    <section class="card upload-section" style="grid-column:1/-1;">
+      <div class="upload-zone" id="conv-upload-zone">
+        <div class="upload-placeholder">
+          <span class="upload-icon">🖼️</span>
+          <div class="upload-text">Drop your PNG / JPG design here</div>
+          <div class="upload-subtext">Convert any image into a pixel-perfect weaving BMP</div>
+        </div>
+        <div class="upload-preview">
+          <img id="conv-preview-img" alt="Source preview">
+          <div class="upload-preview-info">
+            <div class="upload-preview-name" id="conv-preview-name"></div>
+            <div class="upload-preview-size" id="conv-preview-size"></div>
+          </div>
+          <span class="upload-preview-change" id="conv-preview-change">Change Image</span>
+        </div>
+        <input type="file" id="conv-file-input" accept=".png,.jpg,.jpeg,.gif,.webp,image/*" class="sr-only">
+      </div>
+    </section>
+
+    <!-- Converter Sidebar -->
+    <aside class="sidebar conv-sidebar">
+
+      <!-- Converter Settings -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="icon">⚙️</span> BMP Settings</h2>
+        </div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="conv-width">Width (px)</label>
+              <input type="number" class="form-input" id="conv-width" value="100" min="1" max="2000">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="conv-height">Height (px)</label>
+              <input type="number" class="form-input" id="conv-height" value="50" min="1" max="2000">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="conv-color-count">Max Colors</label>
+            <select class="form-input" id="conv-color-count">
+              <option value="2">2 (Black & White)</option>
+              <option value="3">3 Colors</option>
+              <option value="4">4 Colors</option>
+              <option value="6">6 Colors</option>
+              <option value="8" selected>8 Colors</option>
+              <option value="12">12 Colors</option>
+              <option value="16">16 Colors (Full Palette)</option>
+            </select>
+          </div>
+        </div>
+        <div class="process-btn-wrapper">
+          <button class="btn btn-primary btn-block btn-lg" id="conv-convert-btn" disabled>
+            <span>🔄</span> Convert to BMP
+          </button>
+        </div>
+      </div>
+
+      <!-- Used Colors Palette -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="icon">🎨</span> Used Colors</h2>
+        </div>
+        <div class="card-body">
+          <div id="conv-palette" class="conv-palette">
+            <div class="no-colors">Convert an image to see its color palette</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Download / Use Actions -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="icon">💾</span> Actions</h2>
+        </div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:0.6rem;">
+          <button class="btn btn-success btn-block" id="conv-download-btn" disabled>
+            <span>⬇️</span> Download BMP
+          </button>
+          <button class="btn btn-primary btn-block" id="conv-use-in-calc-btn" disabled>
+            <span>📊</span> Use in Punch Calculator
+          </button>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Before / After Preview -->
+    <section class="card conv-preview-section">
+      <div class="card-header">
+        <h2><span class="icon">👁️</span> Preview</h2>
+      </div>
+      <div class="card-body">
+        <div class="conv-compare">
+          <div class="conv-compare-panel">
+            <div class="conv-compare-label">Original</div>
+            <div class="conv-compare-canvas-wrap">
+              <canvas id="conv-before-canvas"></canvas>
+              <div class="canvas-placeholder" id="conv-before-placeholder">
+                <span class="placeholder-icon">🖼️</span>
+                <span class="placeholder-text">Upload an image</span>
+              </div>
+            </div>
+          </div>
+          <div class="conv-compare-arrow">→</div>
+          <div class="conv-compare-panel">
+            <div class="conv-compare-label">Converted BMP</div>
+            <div class="conv-compare-canvas-wrap">
+              <canvas id="conv-after-canvas"></canvas>
+              <div class="canvas-placeholder" id="conv-after-placeholder">
+                <span class="placeholder-icon">📐</span>
+                <span class="placeholder-text">Click "Convert" to see result</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
   <!-- ===== Status Bar ===== -->
   <footer class="status-bar">
     <div class="status-left">
@@ -156,7 +296,7 @@
       </span>
     </div>
     <div class="status-right">
-      <span>Weaving Punch Card Calculator v1.0</span>
+      <span>Weaving Punch Card Calculator v1.1</span>
     </div>
   </footer>
 
@@ -173,12 +313,14 @@
 
   <!-- ===== Help Modal ===== -->
   <div class="loading-overlay" id="help-modal" style="cursor:pointer;">
-    <div class="card" style="max-width:600px;width:90%;cursor:default;" onclick="event.stopPropagation()">
+    <div class="card" style="max-width:640px;width:90%;cursor:default;" onclick="event.stopPropagation()">
       <div class="card-header">
         <h2><span class="icon">❓</span> How to Use</h2>
         <button class="btn btn-secondary" id="help-close" style="padding:0.3rem 0.6rem;">✕</button>
       </div>
       <div class="card-body" style="max-height:70vh;overflow-y:auto;">
+
+        <h3 style="font-size:0.9rem;color:var(--accent-primary-light);margin-bottom:0.5rem;">📊 Punch Card Calculator</h3>
         <ol style="padding-left:1.2rem;font-size:0.85rem;line-height:2;color:var(--text-secondary)">
           <li><strong>Open your design</strong> in ArahPaint and export/save it as a <strong>BMP or PNG</strong> file.</li>
           <li><strong>Upload the image</strong> by clicking the upload area or dragging the file.</li>
@@ -203,11 +345,22 @@
           <strong style="color:var(--text-accent);font-size:0.8rem;">💡 Notation Format</strong>
           <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;margin-top:0.5rem;color:var(--text-secondary);line-height:1.8">
             50, 51 → Individual columns<br>
-            45- 46 → Two consecutive columns<br>
             48--53 → Three or more consecutive columns<br>
             || → End of row marker
           </div>
         </div>
+
+        <hr style="border:none;border-top:1px solid var(--border-subtle);margin:1.25rem 0;">
+
+        <h3 style="font-size:0.9rem;color:var(--accent-primary-light);margin-bottom:0.5rem;">🔄 Image → BMP Converter</h3>
+        <ol style="padding-left:1.2rem;font-size:0.85rem;line-height:2;color:var(--text-secondary)">
+          <li>Switch to the <strong>"Image → BMP"</strong> tab in the header.</li>
+          <li><strong>Upload</strong> any PNG, JPG, or other image of your design idea.</li>
+          <li>Set the <strong>Width</strong> and <strong>Height</strong> in pixels (matching your Thread × Board count).</li>
+          <li>Choose <strong>Max Colors</strong> to control the palette (e.g., 2 for black & white).</li>
+          <li>Click <strong>"Convert to BMP"</strong> to generate the textile-ready BMP.</li>
+          <li><strong>Download</strong> the BMP, or click <strong>"Use in Punch Calculator"</strong> to directly send it to the calculator for further processing.</li>
+        </ol>
       </div>
     </div>
   </div>
@@ -215,6 +368,7 @@
   <!-- ===== Scripts ===== -->
   <script src="grid-renderer.js"></script>
   <script src="app.js"></script>
+  <script src="converter.js"></script>
   <script>
     // Help modal
     document.getElementById('help-btn').addEventListener('click', () => {
@@ -225,6 +379,22 @@
     });
     document.getElementById('help-modal').addEventListener('click', () => {
       document.getElementById('help-modal').classList.remove('active');
+    });
+
+    // Tool tab switching
+    document.querySelectorAll('.app-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Update tab active state
+        document.querySelectorAll('.app-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // Show/hide tool panels
+        const tool = tab.dataset.tool;
+        document.querySelectorAll('.tool-panel').forEach(panel => {
+          panel.classList.remove('active');
+        });
+        document.getElementById('tool-' + tool).classList.add('active');
+      });
     });
   </script>
 </body>

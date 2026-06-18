@@ -985,3 +985,228 @@ body::before {
     font-size: 10pt;
   }
 }
+
+/* ============================================
+   APP TABS (Tool Switcher)
+   ============================================ */
+
+.app-tabs {
+  display: flex;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem;
+}
+
+.app-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.app-tab:hover {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.app-tab.active {
+  color: var(--text-primary);
+  background: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.1);
+}
+
+.app-tab span {
+  font-size: 0.9rem;
+}
+
+/* Tool panel visibility */
+.tool-panel {
+  display: none !important;
+}
+
+.tool-panel.active {
+  display: grid !important;
+}
+
+/* ============================================
+   CONVERTER LAYOUT & STYLES
+   ============================================ */
+
+.conv-layout {
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.conv-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Converter Preview Section */
+.conv-preview-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.conv-preview-section .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  min-height: 0;
+}
+
+.conv-compare {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.conv-compare-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.conv-compare-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.conv-compare-canvas-wrap {
+  flex: 1;
+  position: relative;
+  background: #1a1a2e;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  overflow: hidden;
+}
+
+.conv-compare-canvas-wrap canvas {
+  display: none;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.conv-compare-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  padding: 0 0.25rem;
+}
+
+/* Converter Palette */
+.conv-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.conv-palette-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.6rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  min-width: 0;
+}
+
+.conv-palette-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.conv-palette-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.conv-palette-name {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conv-palette-pct {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Responsive for converter */
+@media (max-width: 1024px) {
+  .conv-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .conv-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .conv-compare {
+    flex-direction: column;
+  }
+
+  .conv-compare-arrow {
+    transform: rotate(90deg);
+    padding: 0.25rem 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-tabs {
+    order: 10;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .conv-sidebar {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .conv-compare-canvas-wrap {
+    min-height: 180px;
+  }
+}
