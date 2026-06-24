@@ -1210,3 +1210,334 @@ body::before {
     min-height: 180px;
   }
 }
+
+/* ============================================
+   DESIGN CREATOR (Tool 3) LAYOUT & STYLES
+   ============================================ */
+
+.des-layout {
+  grid-template-columns: 280px 1fr 280px;
+  grid-template-rows: 1fr;
+}
+
+.des-sidebar-left,
+.des-sidebar-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.des-canvas-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.des-canvas-section .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+  min-height: 0;
+}
+
+.des-grid-info {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  margin-right: auto;
+}
+
+/* ---- Drawing Tool Grid ---- */
+.des-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.des-tool-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.5rem 0.3rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+}
+
+.des-tool-btn:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--border-accent);
+  color: var(--text-primary);
+}
+
+.des-tool-btn.active {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.15);
+}
+
+.des-tool-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.des-tool-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ---- Mirror & History ---- */
+.des-mirror-row,
+.des-history-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.des-mirror-btn {
+  font-size: 0.7rem !important;
+  padding: 0.4rem 0.5rem !important;
+}
+
+.des-mirror-btn.active {
+  background: rgba(99, 102, 241, 0.15) !important;
+  border-color: var(--accent-primary) !important;
+  color: var(--accent-primary-light) !important;
+}
+
+.des-history-row .btn {
+  font-size: 0.72rem;
+  padding: 0.35rem 0.5rem;
+}
+
+/* ---- Color Picker ---- */
+.des-color-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.des-color-input-native {
+  width: 36px;
+  height: 36px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 6px;
+  background: none;
+  flex-shrink: 0;
+}
+
+.des-color-input-native::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.des-color-input-native::-webkit-color-swatch {
+  border-radius: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.des-color-preview {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  transition: var(--transition-fast);
+}
+
+.des-hex-input {
+  flex: 1;
+  min-width: 0;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.8rem !important;
+  text-transform: lowercase;
+}
+
+/* ---- RGB Inputs ---- */
+.des-rgb-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.des-rgb-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.des-rgb-field label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.des-rgb-field .form-input {
+  padding: 0.35rem 0.5rem;
+  font-size: 0.78rem;
+  font-family: 'JetBrains Mono', monospace;
+  text-align: center;
+}
+
+/* ---- Section Labels ---- */
+.des-section-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.4rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.des-add-swatch-btn {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--accent-primary-light);
+  background: none;
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: var(--transition-fast);
+}
+
+.des-add-swatch-btn:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* ---- Preset & Swatch Grids ---- */
+.des-presets,
+.des-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.des-preset-swatch,
+.des-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.des-preset-swatch:hover,
+.des-swatch:hover {
+  transform: scale(1.2);
+  border-color: var(--accent-primary-light);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+}
+
+/* ---- AI Pattern Inputs ---- */
+.des-ai-color-input {
+  width: 100%;
+  height: 32px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 6px;
+  background: none;
+}
+
+.des-ai-color-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.des-ai-color-input::-webkit-color-swatch {
+  border-radius: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ---- Range Slider ---- */
+.des-range-input {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--bg-glass);
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid var(--border-subtle);
+}
+
+.des-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 6px rgba(99, 102, 241, 0.3);
+}
+
+.des-range-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ---- Responsive: Designer ---- */
+@media (max-width: 1200px) {
+  .des-layout {
+    grid-template-columns: 240px 1fr 240px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .des-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .des-sidebar-left {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .des-sidebar-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .des-canvas-section .canvas-wrapper {
+    min-height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .des-sidebar-left,
+  .des-sidebar-right {
+    grid-template-columns: 1fr;
+  }
+}

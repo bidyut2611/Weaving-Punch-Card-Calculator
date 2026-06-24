@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Weaving Punching Card Calculator — Automatically generate punching card descriptions from ArahPaint design images for textile weaving. Includes PNG to BMP converter.">
+  <meta name="description" content="Weaving Punching Card Calculator — Automatically generate punching card descriptions from ArahPaint design images for textile weaving. Includes PNG to BMP converter and grid-based design creator.">
   <title>Weaving Punch Card Calculator</title>
   <link rel="stylesheet" href="index.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧶</text></svg>">
@@ -28,6 +28,9 @@
         </button>
         <button class="app-tab" data-tool="converter">
           <span>🔄</span> Image → BMP
+        </button>
+        <button class="app-tab" data-tool="designer">
+          <span>🎨</span> Design Creator
         </button>
       </nav>
 
@@ -287,6 +290,220 @@
 
   </main>
 
+  <!-- ======================================================== -->
+  <!-- ===== TOOL 3: WEAVING DESIGN CREATOR (New) ============== -->
+  <!-- ======================================================== -->
+  <main class="app-main des-layout tool-panel" id="tool-designer">
+
+    <!-- Left Sidebar: Grid Settings + Drawing Tools -->
+    <aside class="sidebar des-sidebar-left">
+
+      <!-- Grid Settings -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="icon">📐</span> Grid Settings</h2>
+        </div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="des-width">Width (cols)</label>
+              <input type="number" class="form-input" id="des-width" value="100" min="1" max="2000">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="des-height">Height (rows)</label>
+              <input type="number" class="form-input" id="des-height" value="50" min="1" max="2000">
+            </div>
+          </div>
+        </div>
+        <div class="process-btn-wrapper">
+          <button class="btn btn-primary btn-block btn-lg" id="des-create-grid-btn">
+            <span>📐</span> Create Grid
+          </button>
+        </div>
+      </div>
+
+      <!-- Drawing Tools -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="icon">🖌️</span> Tools</h2>
+        </div>
+        <div class="card-body">
+          <div class="des-tool-grid">
+            <button class="des-tool-btn active" data-tool="draw" title="Draw (D)">
+              <span class="des-tool-icon">✏️</span>
+              <span class="des-tool-label">Draw</span>
+            </button>
+            <button class="des-tool-btn" data-tool="erase" title="Erase (E)">
+              <span class="des-tool-icon">🧹</span>
+              <span class="des-tool-label">Erase</span>
+            </button>
+            <button class="des-tool-btn" data-tool="fill" title="Fill (F)">
+              <span class="des-tool-icon">🪣</span>
+              <span class="des-tool-label">Fill</span>
+            </button>
+            <button class="des-tool-btn" data-tool="eyedropper" title="Eyedropper (I)">
+              <span class="des-tool-icon">💧</span>
+              <span class="des-tool-label">Pick</span>
+            </button>
+            <button class="des-tool-btn" data-tool="line" title="Line">
+              <span class="des-tool-icon">📏</span>
+              <span class="des-tool-label">Line</span>
+            </button>
+            <button class="des-tool-btn" data-tool="rect" title="Rectangle">
+              <span class="des-tool-icon">⬜</span>
+              <span class="des-tool-label">Rect</span>
+            </button>
+          </div>
+          <div class="des-mirror-row">
+            <button class="btn btn-secondary des-mirror-btn" id="des-mirror-h" title="Mirror Horizontal">
+              ↔️ Mirror H
+            </button>
+            <button class="btn btn-secondary des-mirror-btn" id="des-mirror-v" title="Mirror Vertical">
+              ↕️ Mirror V
+            </button>
+          </div>
+          <div class="des-history-row">
+            <button class="btn btn-secondary" id="des-undo-btn" disabled title="Undo (Ctrl+Z)">
+              ↩️ Undo
+            </button>
+            <button class="btn btn-secondary" id="des-redo-btn" disabled title="Redo (Ctrl+Y)">
+              ↪️ Redo
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Main Canvas Area -->
+    <section class="card des-canvas-section">
+      <div class="card-header">
+        <h2><span class="icon">🎨</span> Design Canvas</h2>
+        <div class="canvas-controls">
+          <span class="des-grid-info" id="des-grid-info">No grid created</span>
+          <button class="btn btn-secondary" id="des-zoom-in" title="Zoom In">🔍+</button>
+          <button class="btn btn-secondary" id="des-zoom-out" title="Zoom Out">🔍−</button>
+          <button class="btn btn-secondary" id="des-zoom-reset" title="Fit to View">⊞</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="canvas-wrapper" id="designer-canvas-wrapper">
+          <canvas id="designer-canvas"></canvas>
+          <div class="canvas-placeholder" id="designer-placeholder">
+            <span class="placeholder-icon">🎨</span>
+            <span class="placeholder-text">Set grid dimensions and click "Create Grid" to start designing</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Sidebar: Colors + AI + Actions -->
+    <aside class="sidebar des-sidebar-right">
+
+      <!-- Color Picker -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="icon">🎨</span> Color</h2>
+        </div>
+        <div class="card-body">
+          <div class="des-color-picker-row">
+            <input type="color" id="des-color-picker" value="#000000" class="des-color-input-native">
+            <div class="des-color-preview" id="des-color-preview" style="background:#000000"></div>
+            <input type="text" class="form-input des-hex-input" id="des-color-hex" value="#000000" maxlength="7">
+          </div>
+          <div class="des-rgb-row">
+            <div class="des-rgb-field">
+              <label>R</label>
+              <input type="number" class="form-input" id="des-color-r" value="0" min="0" max="255">
+            </div>
+            <div class="des-rgb-field">
+              <label>G</label>
+              <input type="number" class="form-input" id="des-color-g" value="0" min="0" max="255">
+            </div>
+            <div class="des-rgb-field">
+              <label>B</label>
+              <input type="number" class="form-input" id="des-color-b" value="0" min="0" max="255">
+            </div>
+          </div>
+
+          <!-- Textile Presets -->
+          <div class="des-section-label">Textile Colors</div>
+          <div class="des-presets" id="des-presets"></div>
+
+          <!-- Saved Swatches -->
+          <div class="des-section-label">
+            My Swatches
+            <button class="des-add-swatch-btn" id="des-add-swatch" title="Add current color">+ Add</button>
+          </div>
+          <div class="des-swatches" id="des-swatches"></div>
+        </div>
+      </div>
+
+      <!-- AI Pattern Generator -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="icon">🤖</span> AI Patterns</h2>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label" for="des-ai-pattern">Pattern Type</label>
+            <select class="form-input" id="des-ai-pattern">
+              <option value="twill">Twill</option>
+              <option value="satin">Satin</option>
+              <option value="diamond">Diamond</option>
+              <option value="herringbone">Herringbone</option>
+              <option value="chevron">Chevron</option>
+              <option value="checkerboard">Checkerboard</option>
+              <option value="zigzag">Zigzag</option>
+              <option value="basket">Basket Weave</option>
+              <option value="stripes-h">Stripes (Horizontal)</option>
+              <option value="stripes-v">Stripes (Vertical)</option>
+              <option value="stripes-d">Stripes (Diagonal)</option>
+              <option value="random">Random Geometric</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Scale / Density: <span id="des-ai-scale-value">4</span></label>
+            <input type="range" class="des-range-input" id="des-ai-scale" min="2" max="20" value="4">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Color 1</label>
+              <input type="color" class="des-ai-color-input" id="des-ai-color1" value="#000000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Color 2</label>
+              <input type="color" class="des-ai-color-input" id="des-ai-color2" value="#ffffff">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block" id="des-ai-generate-btn" disabled>
+            <span>🤖</span> Generate Pattern
+          </button>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="icon">💾</span> Actions</h2>
+        </div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:0.6rem;">
+          <button class="btn btn-success btn-block" id="des-export-bmp-btn" disabled>
+            <span>⬇️</span> Export BMP
+          </button>
+          <button class="btn btn-primary btn-block" id="des-use-calc-btn" disabled>
+            <span>📊</span> Use in Punch Calculator
+          </button>
+          <button class="btn btn-secondary btn-block" id="des-clear-btn" disabled>
+            <span>🗑️</span> Clear Grid
+          </button>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
   <!-- ===== Status Bar ===== -->
   <footer class="status-bar">
     <div class="status-left">
@@ -361,6 +578,36 @@
           <li>Click <strong>"Convert to BMP"</strong> to generate the textile-ready BMP.</li>
           <li><strong>Download</strong> the BMP, or click <strong>"Use in Punch Calculator"</strong> to directly send it to the calculator for further processing.</li>
         </ol>
+
+        <hr style="border:none;border-top:1px solid var(--border-subtle);margin:1.25rem 0;">
+
+        <h3 style="font-size:0.9rem;color:var(--accent-primary-light);margin-bottom:0.5rem;">🎨 Design Creator</h3>
+        <ol style="padding-left:1.2rem;font-size:0.85rem;line-height:2;color:var(--text-secondary)">
+          <li>Switch to the <strong>"Design Creator"</strong> tab in the header.</li>
+          <li>Set the <strong>Width</strong> (columns) and <strong>Height</strong> (rows) for your grid.</li>
+          <li>Click <strong>"Create Grid"</strong> to initialize the design canvas.</li>
+          <li>Use the <strong>drawing tools</strong> to paint your weaving pattern:
+            <ul style="padding-left:1rem;list-style:disc">
+              <li><strong>Draw (D)</strong> — Click/drag to paint cells</li>
+              <li><strong>Erase (E)</strong> — Click/drag to clear cells</li>
+              <li><strong>Fill (F)</strong> — Flood-fill connected cells</li>
+              <li><strong>Pick (I)</strong> — Pick a color from the grid</li>
+              <li><strong>Line</strong> — Click two points to draw a line</li>
+              <li><strong>Rect</strong> — Click two corners to draw a rectangle</li>
+            </ul>
+          </li>
+          <li>Enable <strong>Mirror H/V</strong> for symmetrical designs.</li>
+          <li>Use <strong>AI Patterns</strong> to generate weaving patterns (Twill, Satin, Diamond, etc.).</li>
+          <li><strong>Export BMP</strong> to download, or <strong>"Use in Punch Calculator"</strong> to send directly.</li>
+        </ol>
+        <div style="margin-top:0.75rem;padding:0.75rem;background:var(--bg-glass);border-radius:var(--radius-sm);border:1px solid var(--border-subtle)">
+          <strong style="color:var(--text-accent);font-size:0.8rem;">⌨️ Keyboard Shortcuts</strong>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;margin-top:0.5rem;color:var(--text-secondary);line-height:1.8">
+            D → Draw tool &nbsp;|&nbsp; E → Erase &nbsp;|&nbsp; F → Fill &nbsp;|&nbsp; I → Eyedropper<br>
+            Ctrl+Z → Undo &nbsp;|&nbsp; Ctrl+Y → Redo<br>
+            Scroll → Zoom &nbsp;|&nbsp; Right-click drag → Pan
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -369,6 +616,7 @@
   <script src="grid-renderer.js"></script>
   <script src="app.js"></script>
   <script src="converter.js"></script>
+  <script src="designer.js"></script>
   <script>
     // Help modal
     document.getElementById('help-btn').addEventListener('click', () => {
