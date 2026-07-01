@@ -911,7 +911,7 @@
     });
 
     // Launch App function
-    function startApp(tool) {
+    function startApp(tool, pushState = true) {
       const landing = document.getElementById('landing-page');
       const appContent = document.getElementById('app-content');
       if (landing) landing.style.display = 'none';
@@ -923,10 +923,14 @@
       // Stop background video to save resources
       const video = landing.querySelector('video');
       if (video) video.pause();
+      
+      if (pushState) {
+        history.pushState({ page: 'app', tool: tool }, '', '#app-' + tool);
+      }
     }
 
     // Return to Home function
-    function goHome() {
+    function goHome(pushState = true) {
       const landing = document.getElementById('landing-page');
       const appContent = document.getElementById('app-content');
       if (landing) landing.style.display = '';
@@ -935,7 +939,20 @@
       // Play background video again
       const video = landing.querySelector('video');
       if (video) video.play();
+      
+      if (pushState) {
+        history.pushState({ page: 'home' }, '', window.location.pathname);
+      }
     }
+
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.page === 'app') {
+        startApp(event.state.tool, false);
+      } else {
+        goHome(false);
+      }
+    });
   </script>
 </body>
 </html>
