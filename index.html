@@ -275,7 +275,7 @@
     <!-- ===== Header ===== -->
   <header class="app-header">
     <div class="header-inner">
-      <div class="logo-section">
+      <div class="logo-section" style="cursor: pointer;" onclick="goHome()" title="Return to Homepage">
         <div class="logo-icon">🧶</div>
         <div class="logo-text">
           <span class="logo-title">Weaving Punch Card Calculator</span>
@@ -297,6 +297,9 @@
       </nav>
 
       <div class="header-actions">
+        <button class="btn btn-primary" onclick="goHome()" title="Return to Homepage" style="margin-right: 0.5rem;">
+          <span>🏠</span> Home
+        </button>
         <button class="btn btn-secondary" id="help-btn" title="Help">
           <span>❓</span> How to Use
         </button>
@@ -920,6 +923,18 @@
       // Stop background video to save resources
       const video = landing.querySelector('video');
       if (video) video.pause();
+    }
+
+    // Return to Home function
+    function goHome() {
+      const landing = document.getElementById('landing-page');
+      const appContent = document.getElementById('app-content');
+      if (landing) landing.style.display = '';
+      if (appContent) appContent.style.display = 'none';
+      
+      // Play background video again
+      const video = landing.querySelector('video');
+      if (video) video.play();
     }
   </script>
 </body>
