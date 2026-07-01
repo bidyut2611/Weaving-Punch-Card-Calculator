@@ -4,13 +4,275 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Weaving Punching Card Calculator — Automatically generate punching card descriptions from ArahPaint design images for textile weaving. Includes PNG to BMP converter and grid-based design creator.">
-  <title>Weaving Punch Card Calculator</title>
+  <title>Aurai - Always-On Wellness Companion</title>
   <link rel="stylesheet" href="index.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧶</text></svg>">
+  <link href="https://db.onlinewebfonts.com/c/304a6edcec9f8858eeaafc2ac18243f4?family=Askan+Light" rel="stylesheet" type="text/css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      },
+      theme: {
+        extend: {
+          fontFamily: {
+            askan: ['"Askan Light"', 'serif'],
+            inter: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style id="landing-styles">
+    :root {
+      --lp-bg: #050505;
+      --lp-text: #ffffff;
+      --lp-text-muted: #a1a1aa;
+    }
+    
+    .landing-container {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--lp-bg);
+      color: var(--lp-text);
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .landing-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+    
+    .bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 1;
+    }
+    
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 2;
+    }
+    
+    .landing-content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 2rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .landing-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 2rem;
+    }
+    
+    .landing-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: 'Askan Light', serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+    }
+    
+    .landing-logo svg {
+      width: 36px;
+      height: 36px;
+    }
+    
+    .landing-main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      gap: 3rem;
+      padding: 2rem 0;
+    }
+    
+    .landing-text-area {
+      max-width: 900px;
+    }
+    
+    .landing-title {
+      font-family: 'Askan Light', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+    
+    .landing-title span {
+      background: linear-gradient(to right, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .landing-subtitle {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      color: var(--lp-text-muted);
+      line-height: 1.6;
+      max-width: 750px;
+    }
+    
+    .landing-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    
+    .landing-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-align: left;
+      color: var(--lp-text);
+      outline: none;
+    }
+    
+    .landing-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    .btn-icon {
+      font-size: 2.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      width: 64px;
+      height: 64px;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .btn-text h3 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      margin-top: 0;
+    }
+    
+    .btn-text p {
+      color: var(--lp-text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+    
+    @media (max-width: 768px) {
+      .landing-main {
+        gap: 2rem;
+      }
+      .landing-btn {
+        padding: 1.5rem;
+      }
+      .btn-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.75rem;
+      }
+      .btn-text h3 {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ===== Header ===== -->
+  <!-- Landing Page -->
+  <div id="landing-page" class="landing-container">
+    <div class="landing-bg">
+      <video autoPlay loop muted playsInline class="bg-video">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260618_174853_aac61aa2-0f3f-4cf1-bc78-7f657dd11164.mp4" type="video/mp4" />
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+    
+    <div class="landing-content">
+      <nav class="landing-nav">
+        <div class="landing-logo">
+          <svg viewBox="0 0 256 256" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z"/>
+          </svg>
+          <span>Aurai Weaving</span>
+        </div>
+      </nav>
+
+      <main class="landing-main">
+        <div class="landing-text-area">
+          <h1 class="landing-title">Automate your <span>weaving</span> workflow.</h1>
+          <p class="landing-subtitle">
+            A productivity weaving tool adopted by 800,000+ rural users, automating an 8-day manual workflow into a minutes-long process.
+          </p>
+        </div>
+
+        <div class="landing-actions">
+          <button class="landing-btn" onclick="startApp('calculator')">
+            <div class="btn-icon">📊</div>
+            <div class="btn-text">
+              <h3>Punch Calculator</h3>
+              <p>Generate punching card descriptions</p>
+            </div>
+          </button>
+          
+          <button class="landing-btn" onclick="startApp('converter')">
+            <div class="btn-icon">🔄</div>
+            <div class="btn-text">
+              <h3>Image → BMP</h3>
+              <p>Convert designs to textile BMP</p>
+            </div>
+          </button>
+          
+          <button class="landing-btn" onclick="startApp('designer')">
+            <div class="btn-icon">🎨</div>
+            <div class="btn-text">
+              <h3>Design Creator</h3>
+              <p>Draw & generate AI patterns</p>
+            </div>
+          </button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- App Content Wrapper -->
+  <div id="app-content" style="display: none;" class="w-full min-h-screen">
+    <!-- ===== Header ===== -->
   <header class="app-header">
     <div class="header-inner">
       <div class="logo-section">
@@ -644,6 +906,21 @@
         document.getElementById('tool-' + tool).classList.add('active');
       });
     });
+
+    // Launch App function
+    function startApp(tool) {
+      const landing = document.getElementById('landing-page');
+      const appContent = document.getElementById('app-content');
+      if (landing) landing.style.display = 'none';
+      if (appContent) appContent.style.display = 'block';
+      
+      const tab = document.querySelector(`.app-tab[data-tool="${tool}"]`);
+      if (tab) tab.click();
+      
+      // Stop background video to save resources
+      const video = landing.querySelector('video');
+      if (video) video.pause();
+    }
   </script>
 </body>
 </html>
