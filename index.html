@@ -27,176 +27,136 @@
     }
   </script>
   <style id="landing-styles">
-    :root {
-      --lp-bg: transparent;
-      --lp-text: #ffffff;
-      --lp-text-muted: #a1a1aa;
-    }
-    
-    .landing-container {
+    /* Reset & Base for landing page to avoid conflicts */
+    .landing-wrapper {
       position: relative;
       width: 100%;
-      min-height: 100vh;
-      background-color: var(--lp-bg);
-      color: var(--lp-text);
-      font-family: 'Inter', sans-serif;
+      height: 100vh;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      background: #000;
+      font-family: 'Inter', sans-serif;
     }
-    
-    .bg-video {
+    .landing-video {
       position: absolute;
       top: 0;
+      right: 0;
+      bottom: 0;
       left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center;
       z-index: 1;
-    
-
-    
-    .landing-content {
-      position: relative;
+    }
+    @media (max-width: 768px) {
+      .landing-video { object-position: 80% center; }
+    }
+    .landing-overlay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
       z-index: 10;
       display: flex;
       flex-direction: column;
-      flex: 1;
-      padding: 2rem 5%;
-      max-width: 1400px;
-      margin: 0 auto;
-      width: 100%;
-      box-sizing: border-box;
+      padding: 2rem 3rem;
     }
-    
+    @media (max-width: 640px) {
+      .landing-overlay { padding: 1rem; }
+    }
+    /* Nav */
     .landing-nav {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding-bottom: 2rem;
+      justify-content: space-between;
+      width: 100%;
     }
-    
-    .landing-logo {
+    .landing-pill {
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 0.75rem 1.5rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.5rem;
+    }
+    .landing-pill svg { width: 28px; height: 28px; color: #fff; }
+    .landing-pill span {
       font-family: 'Askan Light', serif;
-      font-size: 1.75rem;
-      font-weight: 600;
+      color: #fff;
+      font-size: 1.25rem;
+      letter-spacing: 0.025em;
     }
-    
-    .landing-logo svg {
-      width: 36px;
-      height: 36px;
+    .landing-btn-white {
+      background: #fff;
+      color: #111827;
+      font-weight: 500;
+      font-size: 0.875rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
     }
+    .landing-btn-white:hover { background: #f3f4f6; }
     
-    .landing-main {
+    /* Main Content */
+    .landing-main-content {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-end;
       flex: 1;
-      gap: 3rem;
-      padding: 2rem 0;
+      padding-bottom: 3rem;
+      width: 100%;
     }
-    
-    .landing-text-area {
-      max-width: 900px;
-    }
-    
-    .landing-title {
+    .landing-heading {
       font-family: 'Askan Light', serif;
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
+      color: #fff;
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      line-height: 1.05;
       letter-spacing: -0.02em;
+      max-width: 900px;
+      margin-bottom: 1rem;
     }
-    
-    .landing-title span {
-      background: linear-gradient(to right, #60a5fa, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    
-    .landing-subtitle {
-      font-size: clamp(1rem, 2vw, 1.5rem);
-      color: var(--lp-text-muted);
+    .landing-sub {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: clamp(0.75rem, 2vw, 1.125rem);
+      max-width: 520px;
       line-height: 1.6;
-      max-width: 750px;
+      margin-bottom: 2rem;
     }
     
-    .landing-actions {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
+    /* 3 Big Buttons */
+    .landing-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
-    
-    .landing-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .landing-action-btn {
+      background: rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-radius: 1.5rem;
-      padding: 2rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-weight: 500;
+      padding: 1rem 2rem;
+      border-radius: 9999px;
+      font-size: 1.125rem;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      text-align: left;
-      color: var(--lp-text);
-      outline: none;
-    }
-    
-    .landing-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.3);
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    }
-    
-    .btn-icon {
-      font-size: 2.5rem;
-      background: rgba(255, 255, 255, 0.1);
-      width: 64px;
-      height: 64px;
-      border-radius: 1rem;
       display: flex;
       align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+      gap: 0.75rem;
+      transition: all 0.3s;
     }
-    
-    .btn-text h3 {
-      font-size: 1.35rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      margin-top: 0;
+    .landing-action-btn:hover {
+      background: rgba(0, 0, 0, 0.5);
     }
-    
-    .btn-text p {
-      color: var(--lp-text-muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
-      margin: 0;
-    }
-    
-    @media (max-width: 768px) {
-      .landing-main {
-        gap: 2rem;
-      }
-      .landing-btn {
-        padding: 1.5rem;
-      }
-      .btn-icon {
-        width: 48px;
-        height: 48px;
-        font-size: 1.75rem;
-      }
-      .btn-text h3 {
-        font-size: 1.1rem;
-      }
+    @media (max-width: 640px) {
+      .landing-nav .landing-btn-white { display: none; }
+      .landing-action-btn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -207,54 +167,42 @@
   <div style="position: fixed; inset: 0; background: rgba(10, 14, 26, 0.6); z-index: -1;"></div>
 
   <!-- Landing Page -->
-  <div id="landing-page" class="landing-container">
-    <div class="landing-bg" style="position: absolute; inset: 0; z-index: 1; overflow: hidden;">
-      <video id="landing-video" autoPlay loop muted playsInline class="bg-video">
-        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260618_174853_aac61aa2-0f3f-4cf1-bc78-7f657dd11164.mp4" type="video/mp4" />
-      </video>
-      <div class="video-overlay"></div>
-    </div>
-    <div class="landing-content">
+  <div id="landing-page" class="landing-wrapper">
+    <video id="landing-video" autoPlay loop muted playsInline class="landing-video">
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260618_174853_aac61aa2-0f3f-4cf1-bc78-7f657dd11164.mp4" type="video/mp4" />
+    </video>
+
+    <div class="landing-overlay">
+      <!-- Top Nav -->
       <nav class="landing-nav">
-        <div class="landing-logo">
+        <div class="landing-pill">
           <svg viewBox="0 0 256 256" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z"/>
           </svg>
-          <span>Aurai Weaving</span>
+          <span>Aurai</span>
         </div>
+        <button class="landing-btn-white" onclick="startApp('calculator')">Join the list</button>
       </nav>
 
-      <main class="landing-main">
-        <div class="landing-text-area">
-          <h1 class="landing-title">Automate your <span>weaving</span> workflow.</h1>
-          <p class="landing-subtitle">
-            A productivity weaving tool adopted by 800,000+ rural users, automating an 8-day manual workflow into a minutes-long process.
-          </p>
-        </div>
+      <!-- Main Content Bottom -->
+      <main class="landing-main-content">
+        <h1 class="landing-heading">
+          a productivity weaving tool adopted by 800,000+ rural users, automating an 8-day manual workflow into a minutes-long process
+        </h1>
+        <p class="landing-sub">
+          Aurai is your always-on wellness companion. Built by leading therapists, it brings you the care and clarity right when you need it.
+        </p>
 
-        <div class="landing-actions">
-          <button class="landing-btn" onclick="startApp('calculator')">
-            <div class="btn-icon">📊</div>
-            <div class="btn-text">
-              <h3>Punch Calculator</h3>
-              <p>Generate punching card descriptions</p>
-            </div>
+        <!-- 3 Big Buttons -->
+        <div class="landing-buttons">
+          <button class="landing-action-btn" onclick="startApp('calculator')">
+            <span>📊</span> Punch Calculator
           </button>
-          
-          <button class="landing-btn" onclick="startApp('converter')">
-            <div class="btn-icon">🔄</div>
-            <div class="btn-text">
-              <h3>Image → BMP</h3>
-              <p>Convert designs to textile BMP</p>
-            </div>
+          <button class="landing-action-btn" onclick="startApp('converter')">
+            <span>🔄</span> Image → BMP
           </button>
-          
-          <button class="landing-btn" onclick="startApp('designer')">
-            <div class="btn-icon">🎨</div>
-            <div class="btn-text">
-              <h3>Design Creator</h3>
-              <p>Draw & generate AI patterns</p>
-            </div>
+          <button class="landing-action-btn" onclick="startApp('designer')">
+            <span>🎨</span> Design Creator
           </button>
         </div>
       </main>
